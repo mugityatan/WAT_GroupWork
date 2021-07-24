@@ -52,7 +52,7 @@
 
             try {
                 // クイズを追加するクエリ
-                $sql = 'INSERT INTO quiz(key, question, answer) VALUES (?, ?, ?)';
+                $sql = 'INSERT INTO quiz(key1, question, answer) VALUES (?, ?, ?)';
 
                 // クエリ文字列を渡しステートメントの準備
                 $stmt = $pdo->prepare($sql);

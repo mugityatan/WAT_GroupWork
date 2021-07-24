@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -16,7 +16,7 @@
 
             }
         ?>
-        <!-- <section>
+         <section>
             <div v-for='quiz in quizzes'>
                 <hr>
                 ID：{{quiz.id}}<br>
@@ -26,7 +26,7 @@
             </div>
             <input type="text" name="answer" placeholder="答え">
             <input type="submit" value="送信">
-        </section> -->
+        </section> 
         <div>
             <a href="index.html">トップページ</a>
         </div>

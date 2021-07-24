@@ -7,13 +7,13 @@
     <body>
         <?php
             // クイズ情報が送信されていれば
-            if(isset($_POST["key"]) && isset($_POST["question"]) && isset($_POST["answer"])){
+            if(isset($_POST["key1"]) && isset($_POST["question"]) && isset($_POST["answer"])){
                 // セッション開始
                 session_start();
                 // db.phpを読み込み
                 include_once('db.php');
                 // addQuizを実行し結果をセッション変数に保存
-                $_SESSION["id"] = addQuiz($_POST["key"], $_POST["question"], $_POST["answer"]);
+                $_SESSION["id"] = addQuiz($_POST["key1"], $_POST["question"], $_POST["answer"]);
                 // upload.phpに移動
                 // header( "Location: upload.php" ) ;
                 exit();
