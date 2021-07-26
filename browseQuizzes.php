@@ -1,7 +1,6 @@
-<!-- クイズを表示する -->
+<!-- クイズ情報を取得 -->
 <?php
     include_once('db.php');
 
-    // 関数answerQuiz()からリターンされた〇〇を表示
-    echo answerQuiz();
+    echo browseAllQuiz();
 ?>

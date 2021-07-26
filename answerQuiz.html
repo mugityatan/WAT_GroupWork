@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>サンプルページ</title>
+
+        <script src="js/vue.dev.js"></script>
+        <script src="js/axios.min.js"></script>
+    </head>
+    <body>
+		<div>質問</div>
+
+        <div>
+            <label>回答<input type="text" id="nameText"></label>
+            <input type="button" value="Check" id="checkButton">
+        </div>
+
+        <div id="msg"></div>
+
+        <script>
+            function butotnClick(){
+                //正解判定
+                if(nameText.value == "test"){
+                    msg.innerText = "正解です";
+                }else{
+                    msg.innerText = "不正解です";
+                }
+                // msg.innerText = 'お名前は' + nameText.value + 'さんですね';
+            }
+			
+            let nameText = document.getElementById('nameText');
+            // nameText.value = '';
+            let msg = document.getElementById('msg');
+
+            let checkButton = document.getElementById('checkButton');
+            checkButton.addEventListener('click', butotnClick);
+        </script>
+
+    </body>
+</html>

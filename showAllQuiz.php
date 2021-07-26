@@ -1,4 +1,4 @@
-<!-- トップページ -->
+<!-- データベースにある全てのクイズ情報を表示 -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,32 +9,25 @@
         <script src="js/axios.min.js"></script>
     </head>
     <body>
-        <!-- <div id="pera"> -->
-        <section>
-            <h1>サンプルページ</h1>
-        </section>
-        <div>
-            <a href="addQuiz.php">クイズを作成</a><br>
-            <a href="showAllQuiz.php">クイズを全て表示</a>
-            <!-- <a href="upload.php">画像のアップロード</a> -->
-        </div>
-            <!-- <section>
-                <div v-for='pera in peras'>
+        <div id="quiz">
+            <section>
+                <h1>クイズを全て表示</h1>
+            </section>
+            <section>
+                <div v-for='quiz in quizzes'>
                     <hr>
-                    作者：{{pera.applicant}}<br>
-                    <img :src='"data/" + pera.pera' style="width: 80%;"><br>
-                    タイトル：{{pera.title}}<br>
-                    説明：{{pera.description}}
+                    問題：{{quiz.question}}<br>
+                    答え：{{quiz.answer}}
                     <hr>
                 </div>
             </section>
         </div>
         <script>
             new Vue({
-                el: '#pera',
+                el: '#quiz',
                 data: {
                     // ペラ用配列を空で用意
-                    peras: []
+                    quizzes: []
                 },
                 // ページの読み込みが完了したら
                 created: function(){
@@ -44,14 +37,14 @@
                 methods: {
                     // 読み込み完了直後に実行
                     getData: function(){
-                        // browsepera.phpを呼び出し情報を取得
-                        axios.get('browseperas.php')
+                        // browseQuizzes.phpを呼び出し情報を取得
+                        axios.get('browseQuizzes.php')
                         // 結果をresに代入
                         .then( ( res ) => {
                             // res内のdataに結果JSONが入っているので中身を一つずつ取得
-                            for(pera of res.data){
+                            for(quiz of res.data){
                                 // ペラ用配列に追加
-                                this.peras.push(pera);
+                                this.quizzes.push(quiz);
                             }
                         } )
                         .catch( ( res ) => {
@@ -60,6 +53,6 @@
                     }
                 }
             });
-        </script> -->
+        </script>　
     </body>
 </html>

@@ -1,4 +1,4 @@
-<!-- クイズ情報の追加ページ -->
+<!-- クイズを追加してもらうページ -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,21 +7,25 @@
     </head>
     <body>
         <?php
-            // 名前情報が送信されていれば
+            // クイズ情報が送信されていれば
             if(isset($_POST["question"]) && isset($_POST["answer"])){
                 // セッション開始
                 session_start();
                 // db.phpを読み込み
                 include_once('db.php');
-                // addUserを実行し結果をセッション変数に保存
-                $_SESSION["id"] = addQuiz($_POST["question"], $_POST["answer"]);
+                // addQuizを実行し結果をセッション変数に保存
+                $_SESSION["id"] = addQuiz($_POST["key1"], $_POST["question"], $_POST["answer"]);
                 // upload.phpに移動
                 // header( "Location: upload.php" ) ;
                 exit();
             }
         ?>
         <form action="" method="POST">
-            <input type="text" name="question" placeholder="問題">
+            <select name="key">
+                <option value=1>記述問題</option>
+                <option value=2>選択問題</option>
+            </select><br>
+            <input type="text" name="question" placeholder="問題"><br>
             <input type="text" name="answer" placeholder="答え">
             <input type="submit" value="登録">
         </form>

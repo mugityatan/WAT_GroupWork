@@ -1,4 +1,4 @@
-<!-- データベース管理ページ -->
+<!-- データベースを扱う関数まとめ -->
 <?php
 
     // エラーの扱い（デバッグ用・デフォルトでコメントアウト）
@@ -13,12 +13,12 @@
     function getPDO(){
         // sqlite接続
         $pdo = new PDO("mysql:dbname=team01;host=localhost;charset=utf8mb4", "wat2021", "1315Zoom");
-        
+
         // SQL実行時にもエラーの代わりに例外を投げるように設定
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         // 結果を常に連想配列形式で取得するように設定
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        
+
         // 生成したPDOを返す
         return $pdo;
     }
@@ -39,7 +39,7 @@
     // }
 
     // 新規クイズの追加
-    function addQuiz($new_question, $new_answer){
+    function addQuiz($quiz_key, $quiz_question, $quiz_answer){
         try{
             // 結果用新id
             $newid = -1;
@@ -51,15 +51,15 @@
             $pdo->beginTransaction();
 
             try {
-                // ユーザーを追加するクエリ
-                $sql = 'INSERT INTO quiz(question, answer) VALUES (?, ?)';
+                // クイズを追加するクエリ
+                $sql = 'INSERT INTO quiz(key1, question, answer) VALUES (?, ?, ?)';
 
                 // クエリ文字列を渡しステートメントの準備
                 $stmt = $pdo->prepare($sql);
-                
+
                 // クエリにセットする値用配列
-                $values = array($new_question, $new_answer);
-                
+                $values = array($quiz_key, $quiz_question, $quiz_answer);
+
                 // ステートメントに値をセットし実行
                 $stmt->execute($values);
                 
@@ -87,6 +87,51 @@
 
         // 新idを返す
         return $newid;
+    }
+
+    // クイズ情報を配列に格納し、〇〇をリターン
+    function answerQuiz(){
+        try{
+            // PDOを取得
+            $pdo = getPDO();
+
+            // 参加者テーブルを参照しつつペラ一覧を取得するクエリ
+            $sql = 'SELECT * FROM quiz';
+
+            // クエリ文字列を渡しステートメントの準備
+            $stmt = $pdo->prepare($sql);
+
+            // ステートメントを実行
+            $stmt->execute();
+
+            // 結果用変数
+            $quizzes;
+
+            // 結果の行数分繰り返し
+            foreach($stmt as $row){
+                // クイズ情報をセット
+                $quiz["id"] = $row["id"];
+                $quiz["question"] = $row["question"];
+                $quiz["answer"] = $row["answer"];
+                $quizzes[] = $quiz;
+            }
+
+        // エラーが発生したら
+        }catch (PDOException $e){
+            // エラー内容を送る
+            checkError($e);
+            // 空文字を出力し終了
+            return "";
+        }
+
+        // 結果を返す
+        return json_encode($quizzes, JSON_UNESCAPED_UNICODE);
+    }
+
+    // 解答を正解か判定する
+    // 多分ここでやらない方がいい
+    function judgeAnswer() {
+
     }
 
     // // ユーザーIDを取得し返す
@@ -179,43 +224,47 @@
     //     return $newid;
     // }
 
-    // クイズリストを取得し返す
-    function browseAllQuiz(){
-        try{
-            // PDOを取得
-            $pdo = getPDO();
+    // // 作品リストを取得し返す
+    // function browseAllPera(){
+    //     try{
+    //         // PDOを取得
+    //         $pdo = getPDO();
 
-            // 参加者テーブルを参照しつつクイズ一覧を取得するクエリ
-            $sql = 'SELECT * FROM quiz';
+    //         // 参加者テーブルを参照しつつペラ一覧を取得するクエリ
+    //         $sql = 'SELECT * FROM pera 
+    //                 INNER JOIN applicant 
+    //                 WHERE pera.applicant_id=applicant.id';
 
-            // クエリ文字列を渡しステートメントの準備
-            $stmt = $pdo->prepare($sql);
+    //         // クエリ文字列を渡しステートメントの準備
+    //         $stmt = $pdo->prepare($sql);
 
-            // ステートメントを実行
-            $stmt->execute();
+    //         // ステートメントを実行
+    //         $stmt->execute();
 
-            // 結果用変数
-            $quizzes;
+    //         // 結果用変数
+    //         $peras;
 
-            // 結果の行数分繰り返し
-            foreach($stmt as $row){
-                // クイズ情報をセット
-                $quiz["question"] = $row["question"];
-                $quiz["answer"] = $row["answer"];
-                $quizzes[] = $quiz;
-            }
+    //         // 結果の行数分繰り返し
+    //         foreach($stmt as $row){
+    //             // ペラ情報をセット
+    //             $pera["applicant"] = $row["name"];
+    //             $pera["title"] = $row["title"];
+    //             $pera["description"] = $row["description"];
+    //             $pera["pera"] = $row["applicant_id"].".jpg";
+    //             $peras[] = $pera;
+    //         }
 
-        // エラーが発生したら
-        }catch (PDOException $e){
-            // エラー内容を送る
-            checkError($e);
-            // 空文字を出力し終了
-            return "";
-        }
+    //     // エラーが発生したら
+    //     }catch (PDOException $e){
+    //         // エラー内容を送る
+    //         checkError($e);
+    //         // 空文字を出力し終了
+    //         return "";
+    //     }
 
-        // 結果を返す
-        return json_encode($quizzes, JSON_UNESCAPED_UNICODE);
-    }
+    //     // 結果を返す
+    //     return json_encode($peras, JSON_UNESCAPED_UNICODE);
+    // }
 
     // // ペラの削除
     // function deletePera($applicant_id){
