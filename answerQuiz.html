@@ -8,6 +8,9 @@
         <script src="js/axios.min.js"></script>
     </head>
     <body>
+		<div id="vue">
+			<div id="ques">質問：</div>
+		</div>
 		<div>質問</div>
 
         <div>
@@ -27,6 +30,25 @@
                 }
                 // msg.innerText = 'お名前は' + nameText.value + 'さんですね';
             }
+			function getQuestion(){
+			}
+			// Vue.js開始
+            new Vue({
+                // ページ内のidがvueであるブロックを操作
+                el: '#vue',
+                // 利用するデータ
+                data: {
+                    // チーム名情報
+                    name: "KT^2",
+                    // メンバーリスト用配列
+                    member: [
+                        {"question":"test1","answer":"test1"},
+                        {"question":"test2","answer":"test2"},
+						{"question":"test3","answer":"test3"}
+                    ]
+                }
+            });
+			
 			
             let nameText = document.getElementById('nameText');
             // nameText.value = '';
