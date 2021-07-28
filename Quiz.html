@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>クイズサイト</title>
+		
+		<link href="https://www2.teu.ac.jp/lenz/wat2021/01/data/css/style.css" rel="stylesheet" type="text/css">
+        <script src="js/vue.dev.js"></script>
+        <script src="js/axios.min.js"></script>
+    </head>
+
+
+    <body>
+        <div id="quiz">
+			<header></header>
+			<h1>クイズ!</h1>
+			<div class="quizbox">
+				<section>
+					<div v-for='quiz in quizzes'>
+						<div>
+							<p>問題：{{quiz.question}}</p>
+						</div>
+<!--						<var>{{quiz.answer}}</var>-->
+					</div>
+				</section>
+
+				<div>
+					<label>
+						<input type="text" id="name">
+					</label>
+					<br>
+					<input class="checkButton1" type="button" value="Check" id="checkButton">
+				</div>
+				<div id="msg"></div>
+			</div>
+            <div>
+                <a href="index.html">トップページ</a>
+            </div>
+        </div>
+        
+
+       <script>
+            new Vue({
+                el: '#quiz',
+                data: {
+                    // クイズ用配列を空で用意
+                    quizzes: []
+                },
+                // ページの読み込みが完了したら
+                created: function(){
+                    // getDataを実行
+                    this.getData();
+                },
+                methods: {
+                    // 読み込み完了直後に実行
+                    getData: function(){
+                        // browseQuizzes.phpを呼び出し情報を取得
+                        axios.get('browseQuizzes.php')
+                        // 結果をresに代入
+                        .then( ( res ) => {
+                            // res内のdataに結果JSONが入っているので中身を一つずつ取得
+                            for(quiz of res.data){
+                                // クイズ用配列に追加
+                                this.quizzes.push(quiz);
+                            }
+                        } )
+                        .catch( ( res ) => {
+                            console.error( res );
+                        } );
+                    }
+                }
+            });
+
+
+            function butotnClick(){
+
+            //正解判定
+                if(name.value ==  quiz.answer){
+                    msg.innerText = "正解です";
+                }else{
+                    msg.innerText = "不正解です";
+                }
+                // msg.innerText = 'お名前は' + nameText.value + 'さんですね';
+            }
+			function getQuestion(){
+			}
+			
+            let name = document.getElementById('name');
+            // nameText.value = '';
+            let msg = document.getElementById('msg');
+
+            let checkButton = document.getElementById('checkButton');
+            checkButton.addEventListener('click', butotnClick);
+
+            
+        </script>
+        
+    </body>
+</html>

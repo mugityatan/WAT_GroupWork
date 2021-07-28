@@ -1,4 +1,3 @@
-<!-- データベース管理ページ -->
 <?php
 
     // エラーの扱い（デバッグ用・デフォルトでコメントアウト）
@@ -51,7 +50,7 @@
             $pdo->beginTransaction();
 
             try {
-                // ユーザーを追加するクエリ
+                // クイズを追加するクエリ
                 $sql = 'INSERT INTO quiz(question, answer) VALUES (?, ?)';
 
                 // クエリ文字列を渡しステートメントの準備
@@ -179,14 +178,104 @@
     //     return $newid;
     // }
 
+    // // ユーザーIDを取得し返す
+    // function browseUserID($user_mail, $user_pass){
+    //     try{
+    //         // PDOを取得
+    //         $pdo = getPDO();
+
+    //         // ユーザー情報を取得するクエリ
+    //         $sql = 'SELECT * FROM applicant WHERE mail=? AND pass=?';
+
+    //         // クエリ文字列を渡しステートメントの準備
+    //         $stmt = $pdo->prepare($sql);
+
+    //         // クエリにセットする値用配列
+    //         $values = array($user_mail, encryptPass($user_mail, $user_pass));
+
+    //         // 値を渡しステートメントを実行
+    //         $stmt->execute($values);
+
+    //         // 結果用変数
+    //         $userID = -1;
+
+    //         // 結果の行数分繰り返し
+    //         foreach($stmt as $row){
+    //             // 各値をセットし結果行を作成
+    //             $userID = $row["id"];
+    //         }
+
+    //     // エラーが発生したら
+    //     }catch (PDOException $e){
+    //         // エラー内容を送る
+    //         checkError($e);
+    //         // 空文字を出力し終了
+    //         return "";
+    //     }
+
+    //     // 結果を返す
+    //     return $userID;
+    // }
+
+    // // 新規ペラの追加
+    // function addPera($applicant_id, $title, $description){
+    //     try{
+    //         // 結果用新id
+    //         $newid = -1;
+
+    //         // PDOを取得
+    //         $pdo = getPDO();
+
+    //         // トランザクション開始
+    //         $pdo->beginTransaction();
+
+    //         try {
+    //             // 作品を追加するクエリ
+    //             $sql = 'INSERT INTO pera SET applicant_id=?, title=?, description=?';
+
+    //             // クエリ文字列を渡しステートメントの準備
+    //             $stmt = $pdo->prepare($sql);
+                
+    //             // クエリにセットする値用配列
+    //             $values = array($applicant_id, $title, $description);
+                
+    //             // ステートメントに値をセットし実行
+    //             $stmt->execute($values);
+                
+    //             // 挿入された行のidを取得
+    //             $newid = $pdo->lastInsertId('id');
+
+    //             // トランザクションを完了しコミット
+    //             $pdo->commit();
+
+    //         // エラーが発生したら
+    //         }catch (Exception $e) {
+    //             // トランザクションを取り消してロールバック
+    //             $pdo->rollBack();
+    //             // エラーを上位に投げる
+    //             throw $e;
+    //         }
+
+    //     // エラーが発生したら
+    //     }catch (PDOException $e){
+    //         // エラー内容を送る
+    //         checkError($e);
+    //         // -1を出力し終了
+    //         return -1;
+    //     }
+
+    //     // 新idを返す
+    //     return $newid;
+    // }
+
     // クイズリストを取得し返す
-    function browseAllQuiz(){
+    function browseAllQuizzes(){
         try{
             // PDOを取得
             $pdo = getPDO();
 
             // 参加者テーブルを参照しつつクイズ一覧を取得するクエリ
-            $sql = 'SELECT * FROM quiz';
+            $sql = 'SELECT * FROM quiz ORDER BY RAND() LIMIT 1';
 
             // クエリ文字列を渡しステートメントの準備
             $stmt = $pdo->prepare($sql);
@@ -200,6 +289,7 @@
             // 結果の行数分繰り返し
             foreach($stmt as $row){
                 // クイズ情報をセット
+                $quiz["id"] = $row["id"];
                 $quiz["question"] = $row["question"];
                 $quiz["answer"] = $row["answer"];
                 $quizzes[] = $quiz;

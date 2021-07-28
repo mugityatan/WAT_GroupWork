@@ -1,4 +1,3 @@
-<!-- クイズ情報の追加ページ -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,7 +15,7 @@
                 // addUserを実行し結果をセッション変数に保存
                 $_SESSION["id"] = addQuiz($_POST["question"], $_POST["answer"]);
                 // upload.phpに移動
-                // header( "Location: upload.php" ) ;
+                header( "Location: index.html" ) ;
                 exit();
             }
         ?>

@@ -27,6 +27,7 @@ h1{
     overflow: auto;  /* 内容がはみ出る場合の表示方法 */
 }
 .quizbox {
+	position: relative;
     margin-top: 26px;
     margin-right: 97.4px;
     margin-left: 96.4px;
@@ -52,35 +53,31 @@ p{
     text-align: center;
     margin-top: 31px;
     margin-right: 31px;
-    margin-left: 31px;
     margin-bottom: 31px;
 }
 
 
-.sendbox{
+.checkButton1{
     text-align: center;
     background: #46D0A0;
     box-shadow: 0px 3px #224E44;
     margin-top: -15px;
-    margin-right: 160px;
-    margin-left: 160px;
-    margin-bottom: 1px;
+	left: 50%;
+    margin-right: 50%;
     padding-top: 0px;
     padding-right: 0px;
-    padding-left: 0px;
-    padding-bottom: 0px;
     font-weight: bold;
     border: solid 1px #383838;
     border-radius: 10px;
     -webkit-box-shadow: 0px 3px #224E44;
 }
 
-.sendbox p {
+.checkButton1 p {
   text-align: center;
   margin: 1px;
 }
 
-.sendbox p :active{
+.checkButton1 p :active{
   text-align: center;
   margin: 1px;
   box-shadow: none;
